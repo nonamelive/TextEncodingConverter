@@ -24,6 +24,8 @@
 
 - (void)awakeFromNib {
 	
+    [super awakeFromNib];
+    
 	[self createSourceList];
 	
 	if ((self = [super init])) {

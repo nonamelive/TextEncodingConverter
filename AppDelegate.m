@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "MainWindowController.h";
+#import "MainWindowController.h"
 
 @implementation AppDelegate
 
@@ -18,6 +18,10 @@
 	
 	windowController = [[MainWindowController alloc] initWithWindowNibName:@"MainWindow"];
 	[windowController showWindow:self];
+}
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+    return YES;
 }
 
 - (void)dealloc {

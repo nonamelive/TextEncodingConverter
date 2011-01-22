@@ -10,6 +10,10 @@
 
 @interface MainWindowController : NSWindowController {
 
+	NSMutableArray *files;
+	IBOutlet NSTableView *filesTableView;
 }
+
+@property (nonatomic, retain) NSMutableArray *files;
 
 @end

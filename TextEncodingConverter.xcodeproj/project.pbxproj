@@ -12,6 +12,8 @@
 		2A0761FA12E5E8CF00B3CDCB /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A0761F912E5E8CF00B3CDCB /* BWToolkitFramework.framework */; };
 		2A07621812E5E96300B3CDCB /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2A0761F912E5E8CF00B3CDCB /* BWToolkitFramework.framework */; };
 		2A07631412E5F8B800B3CDCB /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A07631312E5F8B800B3CDCB /* MainWindowController.m */; };
+		2A161A5412EB28010004A2BC /* FilesArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A161A5312EB28010004A2BC /* FilesArrayController.m */; };
+		2A3D6BBB12EB3330008DD545 /* FileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D6BBA12EB3330008DD545 /* FileItem.m */; };
 		2A44489012EA9BF3007ACC4F /* SourceListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44488E12EA9BF3007ACC4F /* SourceListController.m */; };
 		2A5FF9B912E8A5ED001513C3 /* movies.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A5FF9B512E8A5ED001513C3 /* movies.png */; };
 		2A5FF9BA12E8A5ED001513C3 /* library.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A5FF9B612E8A5ED001513C3 /* library.png */; };
@@ -53,6 +55,10 @@
 		2A0761F912E5E8CF00B3CDCB /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = "/Users/Kai/Documents/iFiles/Computer Science/Objective-C/Frameworks/BWToolkit/BWToolkitFramework.framework"; sourceTree = "<absolute>"; };
 		2A07631212E5F8B800B3CDCB /* MainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
 		2A07631312E5F8B800B3CDCB /* MainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
+		2A161A5212EB28010004A2BC /* FilesArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesArrayController.h; sourceTree = "<group>"; };
+		2A161A5312EB28010004A2BC /* FilesArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesArrayController.m; sourceTree = "<group>"; };
+		2A3D6BB912EB3330008DD545 /* FileItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileItem.h; sourceTree = "<group>"; };
+		2A3D6BBA12EB3330008DD545 /* FileItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileItem.m; sourceTree = "<group>"; };
 		2A44488D12EA9BF3007ACC4F /* SourceListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceListController.h; sourceTree = "<group>"; };
 		2A44488E12EA9BF3007ACC4F /* SourceListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SourceListController.m; sourceTree = "<group>"; };
 		2A5FF9B512E8A5ED001513C3 /* movies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movies.png; sourceTree = "<group>"; };
@@ -173,6 +179,8 @@
 				2A07631312E5F8B800B3CDCB /* MainWindowController.m */,
 				2A44488D12EA9BF3007ACC4F /* SourceListController.h */,
 				2A44488E12EA9BF3007ACC4F /* SourceListController.m */,
+				2A161A5212EB28010004A2BC /* FilesArrayController.h */,
+				2A161A5312EB28010004A2BC /* FilesArrayController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -189,6 +197,8 @@
 			children = (
 				2AC5702B12E738D200ABF177 /* SourceListItem.h */,
 				2AC5702C12E738D200ABF177 /* SourceListItem.m */,
+				2A3D6BB912EB3330008DD545 /* FileItem.h */,
+				2A3D6BBA12EB3330008DD545 /* FileItem.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -310,6 +320,8 @@
 				2AC56EC012E7268300ABF177 /* PXSourceList.m in Sources */,
 				2AC5702D12E738D200ABF177 /* SourceListItem.m in Sources */,
 				2A44489012EA9BF3007ACC4F /* SourceListController.m in Sources */,
+				2A161A5412EB28010004A2BC /* FilesArrayController.m in Sources */,
+				2A3D6BBB12EB3330008DD545 /* FileItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
