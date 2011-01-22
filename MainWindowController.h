@@ -7,13 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "PXSourceList.h"
 
-@interface MainWindowController : NSWindowController <PXSourceListDataSource, PXSourceListDelegate> {
+@interface MainWindowController : NSWindowController {
 
-	IBOutlet PXSourceList *sourceList;
-	
-	NSMutableArray *sourceListItems;
 }
 
 @end
