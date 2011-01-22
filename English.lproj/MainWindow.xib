@@ -21,7 +21,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="59"/>
+			<integer value="33"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -688,7 +688,6 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>files</string>
 				</object>
-				<string key="NSObjectClassName">SourceListController</string>
 				<bool key="NSEditable">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 			</object>
@@ -727,14 +726,6 @@
 						<reference key="destination" ref="231468665"/>
 					</object>
 					<int key="connectionID">53</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">sourceList</string>
-						<reference key="source" ref="231468665"/>
-						<reference key="destination" ref="374823760"/>
-					</object>
-					<int key="connectionID">54</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -815,6 +806,14 @@
 						</object>
 					</object>
 					<int key="connectionID">90</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sidebarList</string>
+						<reference key="source" ref="231468665"/>
+						<reference key="destination" ref="374823760"/>
+					</object>
+					<int key="connectionID">91</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1150,7 +1149,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>SourceListController</string>
+					<string>SidebarController</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
@@ -1187,7 +1186,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">90</int>
+			<int key="maxID">91</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1235,30 +1234,22 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">SourceListController</string>
+					<string key="className">SidebarController</string>
 					<string key="superclassName">NSObjectController</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">sourceList</string>
+						<string key="NS.key.0">sidebarList</string>
 						<string key="NS.object.0">PXSourceList</string>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">sourceList</string>
+						<string key="NS.key.0">sidebarList</string>
 						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">sourceList</string>
+							<string key="name">sidebarList</string>
 							<string key="candidateClassName">PXSourceList</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">SourceListController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SourceListController</string>
-					<string key="superclassName">NSObjectController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
+						<string key="minorKey">SidebarController.h</string>
 					</object>
 				</object>
 			</object>
