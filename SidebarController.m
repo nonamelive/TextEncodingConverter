@@ -8,6 +8,7 @@
 
 #import "SidebarController.h"
 #import "SidebarItem.h"
+#import "FavoriteFileListHelper.h"
 
 @interface SidebarController ()
 
@@ -48,19 +49,20 @@
 #pragma mark Source List Items Creation
 
 - (SidebarItem *)devicesListItem {
+    
 	SidebarItem *devicesItem = [SidebarItem itemWithTitle:@"Devices" identifier:@"devices"];
 	NSMutableArray *devices = [[[NSMutableArray alloc] init] autorelease];
-	NSArray *mountedVols = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:[NSArray arrayWithObjects:NSURLNameKey, nil] options:NSVolumeEnumerationSkipHiddenVolumes];
-	if ([mountedVols count] > 0) {
-		for (NSURL *element in mountedVols) {
-			NSString *path = [element path];
-			NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
-			SidebarItem *item = [SidebarItem itemWithTitle:displayName identifier:path];
-			[item setIcon:[[NSWorkspace sharedWorkspace] iconForFile:path]];
-			[devices addObject:item];
-		}
-	}
+    
+    NSArray *volumes = [[FavoriteFileListHelper sharedFavoriteFileListHelper] localMountedVolumes];
+    for (NSString *path in volumes) {
+        NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
+        SidebarItem *item = [SidebarItem itemWithTitle:displayName identifier:path];
+        [item setIcon:[[NSWorkspace sharedWorkspace] iconForFile:path]];
+        [devices addObject:item];
+    }
+    
 	[devicesItem setChildren:devices];
+    [devices release];
     
 	return devicesItem;
 }
@@ -75,36 +77,18 @@
 }
 
 - (SidebarItem *)placesListItems {
+    
 	SidebarItem *placesItem = [SidebarItem itemWithTitle:@"Places" identifier:@"places"];
-    
-	NSSearchPathDirectory pathDirectories[6] = {
-		0,
-		NSDesktopDirectory,
-		NSDocumentDirectory,
-		NSDownloadsDirectory,
-		NSMoviesDirectory,
-		NSLibraryDirectory,
-	};
-    
-	NSArray *icons = [NSArray arrayWithObjects:@"", @"desktop.png", @"documents.png", @"downloads.png", @"movies.png", @"library.png", nil];
 	NSMutableArray *places = [[NSMutableArray alloc] initWithCapacity:6];
-	for (int i = 0; i < 6; i++) {
-		NSString *path = [self pathForDirectory:pathDirectories[i]];
-		if (i == 0) {
-			path = NSHomeDirectory();
-		}
-		NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
-		SidebarItem *item = [SidebarItem itemWithTitle:displayName identifier:path];
-        
-		NSString *iconName = [icons objectAtIndex:i];
-		if (iconName && ![iconName isEqualToString:@""]) {
-			[item setIcon:[NSImage imageNamed:iconName]];
-		} else {
-			[item setIcon:[[NSWorkspace sharedWorkspace] iconForFile:path]];
-		}
-        
-		[places addObject:item];
-	}
+
+    NSArray *placesArray = [[FavoriteFileListHelper sharedFavoriteFileListHelper] finderFavoritePlaces];
+    for (NSString *path in placesArray) {
+        NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
+        SidebarItem *item = [SidebarItem itemWithTitle:displayName identifier:path];
+        [item setIcon:[[NSWorkspace sharedWorkspace] iconForFile:path]];
+        [places addObject:item];
+    }
+    
 	[placesItem setChildren:places];
 	[places release];
     
