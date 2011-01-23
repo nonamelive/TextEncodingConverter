@@ -16,11 +16,14 @@
 	NSMutableArray *files;
 	IBOutlet NSTableView *filesTableView;
 	IBOutlet FilesArrayController *filesArrayController;
+    
+    NSMutableArray *selectedFiles;
 	
 	IBOutlet BWSheetController *sheetController;
 }
 
 @property (nonatomic, retain) NSMutableArray *files;
+@property (nonatomic, retain) NSMutableArray *selectedFiles;
 
 - (IBAction)convertToolButtonClicked:(id)sender;
 

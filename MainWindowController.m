@@ -22,18 +22,21 @@
 @implementation MainWindowController
 
 @synthesize files;
+@synthesize selectedFiles;
 
 - (IBAction)convertToolButtonClicked:(id)sender {
 	
 	NSArray *selectedObjects = [filesArrayController selectedObjects];
 	
-	int filesCount = 0;
+    NSMutableArray *selectedFilesArray = [[NSMutableArray alloc] init];
 	for (FileItem *item in selectedObjects) {
 		if (![item isDirectory])
-			filesCount++;
+			[selectedFilesArray addObject:item];
 	}
-	
-	if (filesCount == 0) {
+	self.selectedFiles = selectedFilesArray;
+    [selectedFilesArray release];
+    
+	if ([self.selectedFiles count] == 0) {
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		[alert addButtonWithTitle:@"OK"];
 		[alert setMessageText:@"No Selection"];
@@ -107,6 +110,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 	[files release];
+    [selectedFiles release];
 	
 	[super dealloc];
 }
