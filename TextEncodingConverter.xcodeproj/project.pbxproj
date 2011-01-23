@@ -13,6 +13,7 @@
 		2A07621812E5E96300B3CDCB /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2A0761F912E5E8CF00B3CDCB /* BWToolkitFramework.framework */; };
 		2A07631412E5F8B800B3CDCB /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A07631312E5F8B800B3CDCB /* MainWindowController.m */; };
 		2A161A5412EB28010004A2BC /* FilesArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A161A5312EB28010004A2BC /* FilesArrayController.m */; };
+		2A161A6712EB62340004A2BC /* FavoriteFileListHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A161A6612EB62340004A2BC /* FavoriteFileListHelper.m */; };
 		2A3D6BBB12EB3330008DD545 /* FileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D6BBA12EB3330008DD545 /* FileItem.m */; };
 		2A44489012EA9BF3007ACC4F /* SidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44488E12EA9BF3007ACC4F /* SidebarController.m */; };
 		2A5FF9B912E8A5ED001513C3 /* movies.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A5FF9B512E8A5ED001513C3 /* movies.png */; };
@@ -49,7 +50,7 @@
 		256AC3D80F4B6AC300CF3369 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		256AC3D90F4B6AC300CF3369 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		256AC3F00F4B6AF500CF3369 /* TextEncodingConverter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextEncodingConverter_Prefix.pch; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 1; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		2A0761F912E5E8CF00B3CDCB /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = "/Users/Kai/Documents/iFiles/Computer Science/Objective-C/Frameworks/BWToolkit/BWToolkitFramework.framework"; sourceTree = "<absolute>"; };
@@ -57,6 +58,8 @@
 		2A07631312E5F8B800B3CDCB /* MainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
 		2A161A5212EB28010004A2BC /* FilesArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesArrayController.h; sourceTree = "<group>"; };
 		2A161A5312EB28010004A2BC /* FilesArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesArrayController.m; sourceTree = "<group>"; };
+		2A161A6512EB62340004A2BC /* FavoriteFileListHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteFileListHelper.h; sourceTree = "<group>"; };
+		2A161A6612EB62340004A2BC /* FavoriteFileListHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteFileListHelper.m; sourceTree = "<group>"; };
 		2A3D6BB912EB3330008DD545 /* FileItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileItem.h; sourceTree = "<group>"; };
 		2A3D6BBA12EB3330008DD545 /* FileItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileItem.m; sourceTree = "<group>"; };
 		2A44488D12EA9BF3007ACC4F /* SidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarController.h; sourceTree = "<group>"; };
@@ -185,6 +188,13 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		2A161A6112EB5AFF0004A2BC /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		2AC56EAD12E7264500ABF177 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,7 +216,10 @@
 		2AC56EBA12E7266B00ABF177 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				2A161A6112EB5AFF0004A2BC /* Categories */,
 				2AC5701F12E737D500ABF177 /* UI */,
+				2A161A6512EB62340004A2BC /* FavoriteFileListHelper.h */,
+				2A161A6612EB62340004A2BC /* FavoriteFileListHelper.m */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -322,6 +335,7 @@
 				2A44489012EA9BF3007ACC4F /* SidebarController.m in Sources */,
 				2A161A5412EB28010004A2BC /* FilesArrayController.m in Sources */,
 				2A3D6BBB12EB3330008DD545 /* FileItem.m in Sources */,
+				2A161A6712EB62340004A2BC /* FavoriteFileListHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
