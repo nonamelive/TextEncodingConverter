@@ -8,12 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class FilesArrayController;
+@class BWSheetController;
+
 @interface MainWindowController : NSWindowController {
     
 	NSMutableArray *files;
 	IBOutlet NSTableView *filesTableView;
+	IBOutlet FilesArrayController *filesArrayController;
+	
+	IBOutlet BWSheetController *sheetController;
 }
 
 @property (nonatomic, retain) NSMutableArray *files;
+
+- (IBAction)convertToolButtonClicked:(id)sender;
 
 @end

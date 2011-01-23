@@ -16,7 +16,23 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application
     
-	windowController = [[MainWindowController alloc] initWithWindowNibName:@"MainWindow"];
+    /*
+    // Get the defaults as an NSDictionary
+    NSDictionary *sidebarListsPlist = [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"com.apple.sidebarlists"];
+    NSArray *array = [[sidebarListsPlist objectForKey:@"useritems"] objectForKey:@"CustomListItems"];
+    NSDictionary *dict = [array objectAtIndex:4];
+    NSData *icon = [dict objectForKey:@"Icon"];
+    
+    NSDictionary *iconDict = [NSKeyedUnarchiver unarchiveObjectWithData:icon];
+    NSLog(@"%@", iconDict);
+    
+    //NSString *string = [[NSString alloc] initWithData:icon encoding:NSASCIIStringEncoding];
+    NSImage *image = [[NSImage alloc] initWithData:icon];
+    
+    return;
+	*/
+    
+    windowController = [[MainWindowController alloc] initWithWindowNibName:@"MainWindow"];
 	[windowController showWindow:nil];
 }
 
