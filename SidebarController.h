@@ -9,12 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import "PXSourceList.h"
 
+#define kSidebarListSelectionDidChange      @"SidebarListSelectionDidChange"
+
 @interface SidebarController : NSObjectController <PXSourceListDataSource, PXSourceListDelegate> {
     
     IBOutlet PXSourceList *sidebarList;
     NSMutableArray *sidebarItems;
 }
-
-@property (nonatomic, assign) PXSourceList *sidebarList;
 
 @end

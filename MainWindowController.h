@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MainWindowController : NSWindowController {
-
+    
 	NSMutableArray *files;
 	IBOutlet NSTableView *filesTableView;
 }

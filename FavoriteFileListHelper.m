@@ -13,10 +13,10 @@ static FavoriteFileListHelper *sharedInstance = nil;
 @implementation FavoriteFileListHelper
 
 - (NSArray *)localMountedVolumes {
-    
+        
     /* 10.5 provides ability to retrieve Finder favorite places */
     
-    NSMutableArray *volumes = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *volumes = [[NSMutableArray alloc] init];
     
     UInt32 seed;
     OSErr err = noErr;
@@ -57,14 +57,14 @@ static FavoriteFileListHelper *sharedInstance = nil;
     CFRelease(pathsArray);
     CFRelease(list);
     
-    return (NSArray *)volumes;
+    return [(NSArray *)volumes autorelease];
 }
 
 - (NSArray *)finderFavoritePlaces {
-    
+        
     /* 10.5 provides ability to retrieve Finder favorite places */
     
-    NSMutableArray *places = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *places = [[NSMutableArray alloc] init];
     
     UInt32 seed;
     OSErr err = noErr;
@@ -102,8 +102,8 @@ static FavoriteFileListHelper *sharedInstance = nil;
     
     CFRelease(pathsArray);
     CFRelease(list);
-    
-    return (NSArray *)places;
+
+    return [(NSArray *)places autorelease];
 }
 
 #pragma -

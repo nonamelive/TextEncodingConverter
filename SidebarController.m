@@ -18,8 +18,6 @@
 
 @implementation SidebarController
 
-@synthesize sidebarList;
-
 #pragma mark -
 #pragma mark Controller Life Cycle
 
@@ -51,10 +49,10 @@
 - (SidebarItem *)devicesListItem {
     
 	SidebarItem *devicesItem = [SidebarItem itemWithTitle:@"Devices" identifier:@"devices"];
-	NSMutableArray *devices = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *devices = [[NSMutableArray alloc] init];
     
-    NSArray *volumes = [[FavoriteFileListHelper sharedFavoriteFileListHelper] localMountedVolumes];
-    for (NSString *path in volumes) {
+    NSArray *volumesArray = [[[FavoriteFileListHelper sharedFavoriteFileListHelper] localMountedVolumes] retain];
+    for (NSString *path in volumesArray) {
         NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
         SidebarItem *item = [SidebarItem itemWithTitle:displayName identifier:path];
         [item setIcon:[[NSWorkspace sharedWorkspace] iconForFile:path]];
@@ -63,25 +61,17 @@
     
 	[devicesItem setChildren:devices];
     [devices release];
+    [volumesArray release];
     
 	return devicesItem;
-}
-
-- (NSString *)pathForDirectory:(NSSearchPathDirectory)pathDirectory {
-	NSArray *array = NSSearchPathForDirectoriesInDomains(pathDirectory, NSUserDomainMask, YES);
-	if ([array count] > 0) {
-		return [array objectAtIndex:0];
-	}
-    
-	return nil;
 }
 
 - (SidebarItem *)placesListItems {
     
 	SidebarItem *placesItem = [SidebarItem itemWithTitle:@"Places" identifier:@"places"];
-	NSMutableArray *places = [[NSMutableArray alloc] initWithCapacity:6];
+	NSMutableArray *places = [[NSMutableArray alloc] init];
 
-    NSArray *placesArray = [[FavoriteFileListHelper sharedFavoriteFileListHelper] finderFavoritePlaces];
+    NSArray *placesArray = [[[FavoriteFileListHelper sharedFavoriteFileListHelper] finderFavoritePlaces] retain];
     for (NSString *path in placesArray) {
         NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
         SidebarItem *item = [SidebarItem itemWithTitle:displayName identifier:path];
@@ -91,13 +81,14 @@
     
 	[placesItem setChildren:places];
 	[places release];
+    [placesArray release];
     
 	return placesItem;
 }
 
 - (void)createSourceList {
 	sidebarItems = [[NSMutableArray alloc] init];
-    
+	
 	[sidebarItems addObject:[self devicesListItem]];
 	[sidebarItems addObject:[self placesListItems]];
     
@@ -212,7 +203,10 @@
 
 - (void)sourceListSelectionDidChange:(NSNotification *)notification {
 	NSUInteger row = [sidebarList selectedRow];
-	NSLog(@"%lu", row);
+    NSString *path = [[[sidebarList itemAtRow:row] identifier] copy];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:path forKey:@"path"];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSidebarListSelectionDidChange object:nil userInfo:userInfo];
 }
 
 - (void)sourceListDeleteKeyPressedOnRows:(NSNotification *)notification {
