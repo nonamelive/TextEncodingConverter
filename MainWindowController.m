@@ -8,6 +8,7 @@
 
 #import "MainWindowController.h"
 #import "FileItem.h"
+#import "Encoding.h"
 #import "FilesArrayController.h"
 #import "SidebarController.h"
 #import "ConvertWindowController.h"
@@ -21,8 +22,12 @@
 
 @implementation MainWindowController
 
+@synthesize currentPath;
 @synthesize files;
 @synthesize selectedFiles;
+@synthesize availableEncodings;
+@synthesize fromEncodingIndex;
+@synthesize toEncodingIndex;
 
 - (IBAction)convertToolButtonClicked:(id)sender {
 	
@@ -48,6 +53,21 @@
 	}
 }
 
+- (IBAction)convertButtonClicked:(id)sender {
+	
+	NSStringEncoding fromEncoding = [(Encoding *)[self.availableEncodings objectAtIndex:fromEncodingIndex] stringEncoding];
+	NSStringEncoding toEncoding = [(Encoding *)[self.availableEncodings objectAtIndex:toEncodingIndex] stringEncoding];	
+	
+	for (FileItem *item in self.selectedFiles) {
+		NSError *error;
+		NSString *content = [NSString stringWithContentsOfFile:item.path encoding:fromEncoding error:nil];
+		NSString *newPath = [item.path stringByAppendingPathExtension:@".utf8.txt"];
+		BOOL result = [content writeToFile:newPath atomically:YES encoding:toEncoding error:&error];
+		if (!content)
+			result = NO;
+	}
+}
+
 #pragma mark -
 #pragma mark Window Life Cycle
 
@@ -58,22 +78,38 @@
                                              selector:@selector(sidebarListSelectionDidChange:) 
                                                  name:kSidebarListSelectionDidChange 
                                                object:nil];
-	
 	self.files = [self generateFilesArrayWithDirectoryPath:@"/"];
+	
+	NSMutableArray *encodingsArray = [[NSMutableArray alloc] init];
+	const NSStringEncoding *encodings = [NSString availableStringEncodings];
+	NSStringEncoding encoding;
+	int index = 0;
+	while ((encoding = *encodings++) != 0) {
+		
+		if (encoding == NSUTF8StringEncoding)
+			self.toEncodingIndex = index;
+		index++;
+		
+		Encoding *newEncoding = [[Encoding alloc] init];
+		newEncoding.stringEncoding = encoding;
+		newEncoding.localizedName = [NSString localizedNameOfStringEncoding:encoding];
+		[encodingsArray addObject:newEncoding];
+		[newEncoding release];
+	}
+	self.availableEncodings = encodingsArray;
+	[encodingsArray release];
 }
 
 - (void)sidebarListSelectionDidChange:(NSNotification *)notification {
 
     NSDictionary *userInfo = [notification userInfo];
-    NSString *path = [userInfo objectForKey:@"path"];
-    
-    self.files = [self generateFilesArrayWithDirectoryPath:path];
-    
-    [path release];
+    self.files = [self generateFilesArrayWithDirectoryPath:[userInfo objectForKey:@"path"]];
 }
 
 - (NSMutableArray *)generateFilesArrayWithDirectoryPath:(NSString *)path {
     
+	self.currentPath = [NSURL fileURLWithPath:path];
+	
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *filesArray = [fileManager contentsOfDirectoryAtPath:path error:nil];
     
@@ -105,12 +141,24 @@
     }
 }
 
+- (IBAction)pathControlClicked:(id)sender {
+	
+	NSPathControl *pathControl = sender;
+	NSURL *pathControlPath = [[[pathControl clickedPathComponentCell] URL] URLByStandardizingPath];
+	BOOL samePath = [pathControlPath isEqualTo:[currentPath URLByStandardizingPath]];
+	if (!samePath) {
+		self.files = [self generateFilesArrayWithDirectoryPath:[pathControlPath path]];
+	}
+}
+
 - (void)dealloc {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
+	[currentPath release];
 	[files release];
     [selectedFiles release];
+	[availableEncodings release];
 	
 	[super dealloc];
 }

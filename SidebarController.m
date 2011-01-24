@@ -97,6 +97,9 @@
 	for (SidebarItem *item in sidebarItems) {
 		[sidebarList expandItem:item];
 	}
+	
+	[sidebarList selectRowIndexes:[NSIndexSet indexSetWithIndex:1] byExtendingSelection:YES];
+	[[NSNotificationCenter defaultCenter] postNotificationName:PXSLSelectionDidChangeNotification object:nil userInfo:nil];
 }
 
 - (void)recreateSourceList {
@@ -205,7 +208,7 @@
 	NSUInteger row = [sidebarList selectedRow];
     NSString *path = [[[sidebarList itemAtRow:row] identifier] copy];
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:path forKey:@"path"];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:kSidebarListSelectionDidChange object:nil userInfo:userInfo];
 }
 
