@@ -14,6 +14,7 @@
 		2A07631412E5F8B800B3CDCB /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A07631312E5F8B800B3CDCB /* MainWindowController.m */; };
 		2A161A5412EB28010004A2BC /* FilesArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A161A5312EB28010004A2BC /* FilesArrayController.m */; };
 		2A161A6712EB62340004A2BC /* FavoriteFileListHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A161A6612EB62340004A2BC /* FavoriteFileListHelper.m */; };
+		2A40D6C112EF052C00B6603B /* PathPopupButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A40D6C012EF052C00B6603B /* PathPopupButton.m */; };
 		2A44489012EA9BF3007ACC4F /* SidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44488E12EA9BF3007ACC4F /* SidebarController.m */; };
 		2A5FF9B912E8A5ED001513C3 /* movies.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A5FF9B512E8A5ED001513C3 /* movies.png */; };
 		2A5FF9BA12E8A5ED001513C3 /* library.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A5FF9B612E8A5ED001513C3 /* library.png */; };
@@ -21,6 +22,8 @@
 		2A5FF9BC12E8A5ED001513C3 /* downloads.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A5FF9B812E8A5ED001513C3 /* downloads.png */; };
 		2A5FF9CC12E8A72D001513C3 /* desktop.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A5FF9CB12E8A72D001513C3 /* desktop.png */; };
 		2A69C7F312EC79EB00AE6E50 /* Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A69C7F212EC79EB00AE6E50 /* Encoding.m */; };
+		2A746BEB12EDCC0F001C7096 /* TouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A746BEA12EDCC0F001C7096 /* TouchView.m */; };
+		2A746BF312EDF036001C7096 /* PathMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A746BF212EDF036001C7096 /* PathMenuItem.m */; };
 		2AC56EC012E7268300ABF177 /* PXSourceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC56EBD12E7268300ABF177 /* PXSourceList.m */; };
 		2AC5702D12E738D200ABF177 /* SidebarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC5702C12E738D200ABF177 /* SidebarItem.m */; };
 		2AC5705612E73C7B00ABF177 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AC5705512E73C7B00ABF177 /* MainWindow.xib */; };
@@ -63,6 +66,8 @@
 		2A161A5312EB28010004A2BC /* FilesArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesArrayController.m; sourceTree = "<group>"; };
 		2A161A6512EB62340004A2BC /* FavoriteFileListHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteFileListHelper.h; sourceTree = "<group>"; };
 		2A161A6612EB62340004A2BC /* FavoriteFileListHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteFileListHelper.m; sourceTree = "<group>"; };
+		2A40D6BF12EF052C00B6603B /* PathPopupButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathPopupButton.h; sourceTree = "<group>"; };
+		2A40D6C012EF052C00B6603B /* PathPopupButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathPopupButton.m; sourceTree = "<group>"; };
 		2A44488D12EA9BF3007ACC4F /* SidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarController.h; sourceTree = "<group>"; };
 		2A44488E12EA9BF3007ACC4F /* SidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarController.m; sourceTree = "<group>"; };
 		2A5FF9B512E8A5ED001513C3 /* movies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movies.png; sourceTree = "<group>"; };
@@ -72,6 +77,10 @@
 		2A5FF9CB12E8A72D001513C3 /* desktop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = desktop.png; sourceTree = "<group>"; };
 		2A69C7F112EC79EB00AE6E50 /* Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Encoding.h; sourceTree = "<group>"; };
 		2A69C7F212EC79EB00AE6E50 /* Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Encoding.m; sourceTree = "<group>"; };
+		2A746BE912EDCC0F001C7096 /* TouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchView.h; sourceTree = "<group>"; };
+		2A746BEA12EDCC0F001C7096 /* TouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchView.m; sourceTree = "<group>"; };
+		2A746BEF12EDF01E001C7096 /* PathMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathMenuItem.h; sourceTree = "<group>"; };
+		2A746BF212EDF036001C7096 /* PathMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathMenuItem.m; sourceTree = "<group>"; };
 		2AC56EBC12E7268300ABF177 /* PXSourceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceList.h; sourceTree = "<group>"; };
 		2AC56EBD12E7268300ABF177 /* PXSourceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PXSourceList.m; sourceTree = "<group>"; };
 		2AC56EBE12E7268300ABF177 /* PXSourceListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PXSourceListDataSource.h; sourceTree = "<group>"; };
@@ -211,6 +220,12 @@
 		2AC56EAD12E7264500ABF177 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2A746BE912EDCC0F001C7096 /* TouchView.h */,
+				2A746BEA12EDCC0F001C7096 /* TouchView.m */,
+				2A746BEF12EDF01E001C7096 /* PathMenuItem.h */,
+				2A746BF212EDF036001C7096 /* PathMenuItem.m */,
+				2A40D6BF12EF052C00B6603B /* PathPopupButton.h */,
+				2A40D6C012EF052C00B6603B /* PathPopupButton.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -354,6 +369,9 @@
 				2AE8078D12EC3F1100799A68 /* FileItem.m in Sources */,
 				2AE8079B12EC42D700799A68 /* SelectedFilesArrayController.m in Sources */,
 				2A69C7F312EC79EB00AE6E50 /* Encoding.m in Sources */,
+				2A746BEB12EDCC0F001C7096 /* TouchView.m in Sources */,
+				2A746BF312EDF036001C7096 /* PathMenuItem.m in Sources */,
+				2A40D6C112EF052C00B6603B /* PathPopupButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

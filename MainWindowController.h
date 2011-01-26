@@ -10,15 +10,19 @@
 
 @class FilesArrayController;
 @class BWSheetController;
+@class PathPopupButton;
 
 @interface MainWindowController : NSWindowController {
     
-	NSURL *currentPath;
+	NSString *currentPath;
 	NSMutableArray *files;
 	IBOutlet NSTableView *filesTableView;
 	IBOutlet FilesArrayController *filesArrayController;
     
     NSMutableArray *selectedFiles;
+	
+	IBOutlet NSSegmentedControl *backForwardSegementedControl;
+	IBOutlet PathPopupButton *pathPopupButton;
 	
 	NSMutableArray *availableEncodings;
 	int fromEncodingIndex;
@@ -27,15 +31,19 @@
 	IBOutlet BWSheetController *sheetController;
 }
 
-@property (nonatomic, retain) NSURL *currentPath;
+@property (nonatomic, retain) NSString *currentPath;
 @property (nonatomic, retain) NSMutableArray *files;
 @property (nonatomic, retain) NSMutableArray *selectedFiles;
 @property (nonatomic, retain) NSMutableArray *availableEncodings;
 @property (nonatomic, assign) int fromEncodingIndex;
 @property (nonatomic, assign) int toEncodingIndex;
 
+@property (nonatomic, assign) IBOutlet NSPathControl *pathControl;
+
+- (IBAction)backForwardSegementedControlClicked:(id)sender;
 - (IBAction)convertToolButtonClicked:(id)sender;
 - (IBAction)convertButtonClicked:(id)sender;
-- (IBAction)pathControlClicked:(id)sender;
+
+- (IBAction)pathPopupButtonClicked:(id)sender;
 
 @end
