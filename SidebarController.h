@@ -10,6 +10,7 @@
 #import "PXSourceList.h"
 
 #define kSidebarListSelectionDidChange      @"SidebarListSelectionDidChange"
+#define kCurrentFolderChanged				@"CurrentFolderChanged"
 
 @interface SidebarController : NSObjectController <PXSourceListDataSource, PXSourceListDelegate> {
     

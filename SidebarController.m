@@ -40,7 +40,33 @@
                                                                selector:@selector(volumeChanged:)
                                                                    name:NSWorkspaceDidRenameVolumeNotification
                                                                  object:nil];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector(changeFolder:) 
+													 name:kCurrentFolderChanged 
+												   object:nil];
     }
+}
+
+- (void)changeFolder:(NSNotification *)notification {
+	
+	NSDictionary *userInfo = [notification userInfo];
+	NSString *path = [userInfo objectForKey:@"path"];
+	
+	BOOL found = NO;
+	for (SidebarItem *groupItem in sidebarItems) {
+		for (SidebarItem *item in groupItem.children) {
+			if ([item.identifier isEqualToString:path]) {
+				int row = [sidebarList rowForItem:item];
+				[sidebarList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+				found = YES;
+			}
+		}
+	}
+	
+	if (found == NO) {
+		[sidebarList deselectRow:[sidebarList selectedRow]];
+	}
 }
 
 #pragma mark -
@@ -97,9 +123,6 @@
 	for (SidebarItem *item in sidebarItems) {
 		[sidebarList expandItem:item];
 	}
-	
-	[sidebarList selectRowIndexes:[NSIndexSet indexSetWithIndex:1] byExtendingSelection:YES];
-	[[NSNotificationCenter defaultCenter] postNotificationName:PXSLSelectionDidChangeNotification object:nil userInfo:nil];
 }
 
 - (void)recreateSourceList {
@@ -176,19 +199,6 @@
 	return [item icon];
 }
 
-- (NSMenu *)sourceList:(PXSourceList *)aSourceList menuForEvent:(NSEvent *)theEvent item:(id)item {
-	if ( [theEvent type] == NSRightMouseDown || ([theEvent type] == NSLeftMouseDown && ([theEvent modifierFlags] & NSControlKeyMask) == NSControlKeyMask) ) {
-		NSMenu *m = [[NSMenu alloc] init];
-		if (item != nil) {
-			[m addItemWithTitle:[item title] action:nil keyEquivalent:@""];
-		} else {
-			[m addItemWithTitle:@"clicked outside" action:nil keyEquivalent:@""];
-		}
-		return [m autorelease];
-	}
-	return nil;
-}
-
 #pragma mark -
 #pragma mark Source List Delegate Methods
 
@@ -205,10 +215,16 @@
 }
 
 - (void)sourceListSelectionDidChange:(NSNotification *)notification {
+	
 	NSUInteger row = [sidebarList selectedRow];
-    NSString *path = [[[sidebarList itemAtRow:row] identifier] copy];
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:path forKey:@"path"];
 
+    if (row == -1) {
+		return;
+	}
+	
+	NSString *path = [[[sidebarList itemAtRow:row] identifier] copy];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:path forKey:@"path"];
+	
     [[NSNotificationCenter defaultCenter] postNotificationName:kSidebarListSelectionDidChange object:nil userInfo:userInfo];
 }
 
