@@ -19,6 +19,7 @@
 
 @interface MainWindowController ()
 
+- (void)updateSidebarListSelectionItemWithPath:(NSString *)path;
 - (void)generateFilesArrayWithDirectoryPath:(NSString *)path;
 - (void)updateSegmentedControl;
 - (void)handleUndo;
@@ -34,15 +35,21 @@
 @synthesize availableEncodings;
 @synthesize fromEncodingIndex;
 @synthesize toEncodingIndex;
-
+@synthesize saveDestinationFolderPath;
+@synthesize converting;
+@synthesize overwriting;
 @synthesize pathControl;
 
 #pragma mark -
 #pragma mark Window Life Cycle
 
+- (IBAction)refreshMenuItemClicked:(id)sender {
+	[self generateFilesArrayWithDirectoryPath:self.currentPath];
+}
+
 - (void)awakeFromNib {
 	[super awakeFromNib];
-    
+	
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(sidebarListSelectionDidChange:) 
                                                  name:kSidebarListSelectionDidChange 
@@ -60,7 +67,7 @@
 											   object:nil];
 	
 	// Initialize default foder is "/".
-	[self generateFilesArrayWithDirectoryPath:@"/"];
+	[self updateSidebarListSelectionItemWithPath:@"/"];
 	
 	// Retrieve all avaiable string encodings, and store them into self.availableEncodings.
 	NSMutableArray *encodingsArray = [[NSMutableArray alloc] init];
@@ -81,13 +88,15 @@
 	}
 	self.availableEncodings = encodingsArray;
 	[encodingsArray release];
+	
+	self.saveDestinationFolderPath = @"";
 }
 
 #pragma mark -
 #pragma mark Undo & Redo
 
 - (IBAction)backForwardSegementedControlClicked:(id)sender {
-	
+	NSLog(@"%@", self.currentPath);
 	NSSegmentedControl *segmentedControl = sender;
 	if (segmentedControl.selectedSegment == 0) {
 		[self handleUndo];
@@ -131,22 +140,17 @@
 	
     NSMutableArray *selectedFilesArray = [[NSMutableArray alloc] init];
 	for (FileItem *item in selectedObjects) {
-		if (![item isDirectory])
+		if (![item isDirectory]) {
+			item.status = kFileItemStatusWaiting;
 			[selectedFilesArray addObject:item];
+		}
 	}
 	self.selectedFiles = selectedFilesArray;
     [selectedFilesArray release];
+	
+	[progressIndicator setDoubleValue:0];
     
-	if ([self.selectedFiles count] == 0) {
-		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert addButtonWithTitle:@"OK"];
-		[alert setMessageText:@"No Selection"];
-		[alert setInformativeText:@"There are no files to be converted."];
-		[alert setAlertStyle:NSWarningAlertStyle];
-		[alert beginSheetModalForWindow:self.window modalDelegate:self didEndSelector:nil contextInfo:nil];
-	} else {
-		[sheetController openSheet:self];		
-	}
+	[sheetController openSheet:self];
 }
 
 #pragma mark -
@@ -159,22 +163,36 @@
         FileItem *item = (FileItem *)[selectedObjects objectAtIndex:0];
         if ([item isDirectory]) {
             [self generateFilesArrayWithDirectoryPath:item.path];
-        }
+        } else {
+			[self convertToolButtonClicked:nil];
+		}
     }
 }
 
+- (IBAction)selectDestinationFolderButtonClicked:(id)sender {
+	
+	NSOpenPanel *openDialog = [NSOpenPanel openPanel];
+	[openDialog setCanChooseDirectories:YES];
+	[openDialog setCanChooseFiles:NO];
+
+	if ([openDialog runModal] == NSOKButton) {
+		NSURL *folder = [openDialog URL];
+		self.saveDestinationFolderPath = [folder path];
+	}
+}
 #pragma mark -
 #pragma mark Change Path
 
 - (void)generateFilesArrayWithDirectoryPath:(NSString *)path {
-    
-	if (self.currentPath != nil)
+    	
+	if (self.currentPath != nil && ![self.currentPath isEqualToString:path])
 		[[self.window undoManager] registerUndoWithTarget:self selector:@selector(generateFilesArrayWithDirectoryPath:) object:self.currentPath];	
 	
 	[self updateSegmentedControl];
 	
 	self.currentPath = path;
 	pathPopupButton.path = path;
+	[self updateSidebarListSelectionItemWithPath:self.currentPath];
 	
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *filesArray = [fileManager contentsOfDirectoryAtPath:path error:nil];
@@ -184,8 +202,6 @@
 		
 		FileItem *item = [[FileItem alloc] init];
 		item.path = [path stringByAppendingPathComponent:filename];
-		item.name = filename;
-		item.icon = [[NSWorkspace sharedWorkspace] iconForFile:item.path];
 		
 		if (![item isInvisible])
 			[newFiles addObject:item];
@@ -205,21 +221,104 @@
     [self generateFilesArrayWithDirectoryPath:[userInfo objectForKey:@"path"]];
 }
 
+- (void)updateSidebarListSelectionItemWithPath:(NSString *)path {
+
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:path forKey:@"path"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCurrentFolderChanged object:nil userInfo:userInfo];
+}
+
 #pragma mark -
 #pragma mark Sheet Window
 
+- (IBAction)clearSucceededFilesMenuItemClicked:(id)sender {
+	
+	NSMutableArray *remainings = [[NSMutableArray alloc] init];
+	
+	for (FileItem *item in self.selectedFiles) {
+		if (item.status != kFileItemStatusSucceeded) {
+			[remainings addObject:item];
+		}
+	}
+	
+	self.selectedFiles = remainings;
+	[remainings release];
+}
+
 - (IBAction)convertButtonClicked:(id)sender {
 	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	BOOL saveFolderExists = NO;
+	[fileManager fileExistsAtPath:self.saveDestinationFolderPath isDirectory:&saveFolderExists];
+	if (!saveFolderExists && ![self.saveDestinationFolderPath isEqualToString:@""]) {
+		
+		NSLog(@"ERROR");
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert addButtonWithTitle:@"OK"];
+		[alert setMessageText:@"Cannot save files."];
+		[alert setInformativeText:@"Destination doesn't exist. Please select another directory."];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert beginSheetModalForWindow:[sender window] modalDelegate:self didEndSelector:nil contextInfo:nil];
+		
+		return;
+	}
+
 	NSStringEncoding fromEncoding = [(Encoding *)[self.availableEncodings objectAtIndex:fromEncodingIndex] stringEncoding];
 	NSStringEncoding toEncoding = [(Encoding *)[self.availableEncodings objectAtIndex:toEncodingIndex] stringEncoding];	
 	
+	[progressIndicator setMaxValue:[self.selectedFiles count]];
+	[progressIndicator setMinValue:0];
+	[progressIndicator startAnimation:self];
+	[progressIndicator setUsesThreadedAnimation:YES];
+	self.converting = YES;
+	
+	BOOL allItemsConvertedSucceeded = YES;
+	
 	for (FileItem *item in self.selectedFiles) {
-		NSError *error;
-		NSString *content = [NSString stringWithContentsOfFile:item.path encoding:fromEncoding error:nil];
-		NSString *newPath = [item.path stringByAppendingPathExtension:@".utf8.txt"];
-		BOOL result = [content writeToFile:newPath atomically:YES encoding:toEncoding error:&error];
-		if (!content)
+
+		item.status = kFileItemStatusWaiting;
+		
+		NSString *newPath = nil;
+		if (saveFolderExists) {
+			newPath = [self.saveDestinationFolderPath stringByAppendingPathComponent:item.convertedFilename];
+		} else {
+			newPath = [[item.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:item.convertedFilename];
+		}
+		
+		BOOL result = YES;
+		if (![fileManager fileExistsAtPath:newPath] || self.overwriting) {
+			NSError *error = nil;
+			NSString *content = [NSString stringWithContentsOfFile:item.path encoding:fromEncoding error:nil];
+			result = [content writeToFile:newPath atomically:YES encoding:toEncoding error:&error];
+			if (!content || error.code) {
+				result = NO;
+				NSLog(@"Failed.");
+			}
+		} else {
 			result = NO;
+			NSLog(@"File existed.");
+		}
+		
+		if (result == NO) {
+			allItemsConvertedSucceeded = NO;
+			item.status = kFileItemStatusFailed;
+		} else {
+			item.status = kFileItemStatusSucceeded;
+		}
+		
+		[progressIndicator setDoubleValue:[progressIndicator doubleValue] + 1];
+	}
+	
+	[progressIndicator stopAnimation:self];
+	self.converting = NO;
+	
+	if (!allItemsConvertedSucceeded) {
+		NSLog(@"ERROR");
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert addButtonWithTitle:@"OK"];
+		[alert setMessageText:@"Failed to convert one or more files."];
+		[alert setInformativeText:@"Some files cannot be converted because output file is already existed or original encoding is wrong."];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert beginSheetModalForWindow:[sender window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 	}
 }
 
@@ -234,6 +333,7 @@
 	[files release];
     [selectedFiles release];
 	[availableEncodings release];
+	[saveDestinationFolderPath release];
 	
 	[super dealloc];
 }
