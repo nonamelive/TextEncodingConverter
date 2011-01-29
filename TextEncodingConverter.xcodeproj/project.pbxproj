@@ -14,6 +14,11 @@
 		2A07631412E5F8B800B3CDCB /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A07631312E5F8B800B3CDCB /* MainWindowController.m */; };
 		2A161A5412EB28010004A2BC /* FilesArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A161A5312EB28010004A2BC /* FilesArrayController.m */; };
 		2A161A6712EB62340004A2BC /* FavoriteFileListHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A161A6612EB62340004A2BC /* FavoriteFileListHelper.m */; };
+		2A3F2E6612F3462700DDF7FA /* failed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3F2E6212F3462700DDF7FA /* failed.png */; };
+		2A3F2E6712F3462700DDF7FA /* succeeded.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3F2E6312F3462700DDF7FA /* succeeded.png */; };
+		2A3F2E6812F3462700DDF7FA /* converting.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3F2E6412F3462700DDF7FA /* converting.png */; };
+		2A3F2E6912F3462700DDF7FA /* waiting.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3F2E6512F3462700DDF7FA /* waiting.png */; };
+		2A3F2E7212F3C6CF00DDF7FA /* NLTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F2E7112F3C6CF00DDF7FA /* NLTableView.m */; };
 		2A40D6C112EF052C00B6603B /* PathPopupButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A40D6C012EF052C00B6603B /* PathPopupButton.m */; };
 		2A44489012EA9BF3007ACC4F /* SidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44488E12EA9BF3007ACC4F /* SidebarController.m */; };
 		2A5FF9B912E8A5ED001513C3 /* movies.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A5FF9B512E8A5ED001513C3 /* movies.png */; };
@@ -66,6 +71,12 @@
 		2A161A5312EB28010004A2BC /* FilesArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesArrayController.m; sourceTree = "<group>"; };
 		2A161A6512EB62340004A2BC /* FavoriteFileListHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteFileListHelper.h; sourceTree = "<group>"; };
 		2A161A6612EB62340004A2BC /* FavoriteFileListHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteFileListHelper.m; sourceTree = "<group>"; };
+		2A3F2E6212F3462700DDF7FA /* failed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = failed.png; sourceTree = "<group>"; };
+		2A3F2E6312F3462700DDF7FA /* succeeded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = succeeded.png; sourceTree = "<group>"; };
+		2A3F2E6412F3462700DDF7FA /* converting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = converting.png; sourceTree = "<group>"; };
+		2A3F2E6512F3462700DDF7FA /* waiting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waiting.png; sourceTree = "<group>"; };
+		2A3F2E7012F3C6CF00DDF7FA /* NLTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLTableView.h; sourceTree = "<group>"; };
+		2A3F2E7112F3C6CF00DDF7FA /* NLTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLTableView.m; sourceTree = "<group>"; };
 		2A40D6BF12EF052C00B6603B /* PathPopupButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathPopupButton.h; sourceTree = "<group>"; };
 		2A40D6C012EF052C00B6603B /* PathPopupButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathPopupButton.m; sourceTree = "<group>"; };
 		2A44488D12EA9BF3007ACC4F /* SidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarController.h; sourceTree = "<group>"; };
@@ -226,6 +237,8 @@
 				2A746BF212EDF036001C7096 /* PathMenuItem.m */,
 				2A40D6BF12EF052C00B6603B /* PathPopupButton.h */,
 				2A40D6C012EF052C00B6603B /* PathPopupButton.m */,
+				2A3F2E7012F3C6CF00DDF7FA /* NLTableView.h */,
+				2A3F2E7112F3C6CF00DDF7FA /* NLTableView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -276,6 +289,10 @@
 		2AC5706012E73E9C00ABF177 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				2A3F2E6212F3462700DDF7FA /* failed.png */,
+				2A3F2E6312F3462700DDF7FA /* succeeded.png */,
+				2A3F2E6412F3462700DDF7FA /* converting.png */,
+				2A3F2E6512F3462700DDF7FA /* waiting.png */,
 				2A5FF9B512E8A5ED001513C3 /* movies.png */,
 				2A5FF9B612E8A5ED001513C3 /* library.png */,
 				2A5FF9B712E8A5ED001513C3 /* documents.png */,
@@ -347,6 +364,10 @@
 				2A5FF9BB12E8A5ED001513C3 /* documents.png in Resources */,
 				2A5FF9BC12E8A5ED001513C3 /* downloads.png in Resources */,
 				2A5FF9CC12E8A72D001513C3 /* desktop.png in Resources */,
+				2A3F2E6612F3462700DDF7FA /* failed.png in Resources */,
+				2A3F2E6712F3462700DDF7FA /* succeeded.png in Resources */,
+				2A3F2E6812F3462700DDF7FA /* converting.png in Resources */,
+				2A3F2E6912F3462700DDF7FA /* waiting.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +393,7 @@
 				2A746BEB12EDCC0F001C7096 /* TouchView.m in Sources */,
 				2A746BF312EDF036001C7096 /* PathMenuItem.m in Sources */,
 				2A40D6C112EF052C00B6603B /* PathPopupButton.m in Sources */,
+				2A3F2E7212F3C6CF00DDF7FA /* NLTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
