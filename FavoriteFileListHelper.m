@@ -13,7 +13,7 @@ static FavoriteFileListHelper *sharedInstance = nil;
 @implementation FavoriteFileListHelper
 
 - (NSArray *)localMountedVolumes {
-        
+	
     /* 10.5 provides ability to retrieve Finder favorite places */
     
     NSMutableArray *volumes = [[NSMutableArray alloc] init];
