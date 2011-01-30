@@ -394,6 +394,7 @@
 				GCC_PREFIX_HEADER = TextEncodingConverter_Prefix.pch;
 				INFOPLIST_FILE = "TextEncodingConverter-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = TextEncodingConverter;
 			};
 			name = Debug;
@@ -412,6 +413,7 @@
 				GCC_PREFIX_HEADER = TextEncodingConverter_Prefix.pch;
 				INFOPLIST_FILE = "TextEncodingConverter-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = TextEncodingConverter;
 			};
 			name = Release;
