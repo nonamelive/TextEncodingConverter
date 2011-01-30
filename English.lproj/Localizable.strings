@@ -5,3 +5,13 @@
   Created by Kai on 1/30/11.
   Copyright 2011 NONAME STUDIO. All rights reserved.
 */
+
+/* Main Window */
+"OK" = "OK";
+"Cannot save files." = "Cannot save files.";
+"Destination doesn't exist. Please select another directory." = "Destination doesn't exist. Please select another directory.";
+
+"Failed to convert one or more files." = "Failed to convert one or more files.";
+"Some files cannot be converted because output file already exists or original encoding is wrong." = "Some files cannot be converted because output file already exists or original encoding is wrong.";
+
+

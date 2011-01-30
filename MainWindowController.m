@@ -123,9 +123,9 @@
 		
 		NSLog(@"ERROR");
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert addButtonWithTitle:@"OK"];
-		[alert setMessageText:@"Cannot save files."];
-		[alert setInformativeText:@"Destination doesn't exist. Please select another directory."];
+		[alert addButtonWithTitle:NSLocalizedString(@"OK", @"Main Window")];
+		[alert setMessageText:NSLocalizedString(@"Cannot save files.", @"Main Window")];
+		[alert setInformativeText:NSLocalizedString(@"Destination doesn't exist. Please select another directory.", @"Main Window")];
 		[alert setAlertStyle:NSWarningAlertStyle];
 		[alert beginSheetModalForWindow:[sender window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 		
@@ -188,9 +188,9 @@
 	if (!allItemsConvertedSucceeded) {
 		NSLog(@"ERROR");
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert addButtonWithTitle:@"OK"];
-		[alert setMessageText:@"Failed to convert one or more files."];
-		[alert setInformativeText:@"Some files cannot be converted because output file is already existed or original encoding is wrong."];
+		[alert addButtonWithTitle:NSLocalizedString(@"OK", @"Main Window")];
+		[alert setMessageText:NSLocalizedString(@"Failed to convert one or more files.", @"Main Window")];
+		[alert setInformativeText:NSLocalizedString(@"Some files cannot be converted because output file already exists or original encoding is wrong.", @"Main Window")];
 		[alert setAlertStyle:NSWarningAlertStyle];
 		[alert beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 	}
@@ -201,6 +201,8 @@
 
 - (void)awakeFromNib {
 	[super awakeFromNib];
+	
+	// [[NSUserDefaults standardUserDefaults] setObject:[NSArray arrayWithObject:@"en"] forKey:@"AppleLanguages"];
 	
 	// Retrieve all avaiable string encodings, and store them into self.availableEncodings.
 	NSMutableArray *encodingsArray = [[NSMutableArray alloc] init];
