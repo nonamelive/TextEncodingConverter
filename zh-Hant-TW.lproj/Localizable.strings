@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  TextEncodingConverter
+
+  Created by Kai on 1/30/11.
+  Copyright 2011 NONAME STUDIO. All rights reserved.
+*/
+
+/* Main Window */
+"OK" = "好";
+"Cannot save files." = "不能存儲檔案.";
+"Destination doesn't exist. Please select another directory." = "輸出檔案夾不存在, 請重新選擇檔案夾";
+
+"Failed to convert one or more files." = "一個或多個檔案轉換失敗.";
+"Some files cannot be converted because output file already exists or original encoding is wrong." = "由於輸出目標文件已存在或編碼選擇錯誤, 某些文件未能轉換.";
+
+
+
+
+
+
