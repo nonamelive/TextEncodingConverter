@@ -7,72 +7,92 @@
 //
 
 #import "MainWindowController.h"
+#import "FilesArrayController.h"
+#import "EncodingsArrayController.h"
 #import "FileItem.h"
 #import "Encoding.h"
-#import "PathMenuItem.h"
-#import "FilesArrayController.h"
-#import "SidebarController.h"
-#import "ConvertWindowController.h"
 #import "TouchView.h"
-#import "PathPopupButton.h"
-#import <BWToolkitFramework/BWToolkitFramework.h>
-
-@interface MainWindowController ()
-
-- (void)updateSidebarListSelectionItemWithPath:(NSString *)path;
-- (void)generateFilesArrayWithDirectoryPath:(NSString *)path;
-- (void)updateSegmentedControl;
-- (void)handleUndo;
-- (void)handleRedo;
-
-@end
+#import "NSStringEncodingSniffer.h"
 
 @implementation MainWindowController
 
-@synthesize currentPath;
 @synthesize files;
-@synthesize selectedFiles;
 @synthesize availableEncodings;
 @synthesize fromEncodingIndex;
 @synthesize toEncodingIndex;
 @synthesize saveDestinationFolderPath;
 @synthesize converting;
 @synthesize overwriting;
-@synthesize pathControl;
+@synthesize previewText;
+@synthesize previewData;
 
 #pragma mark -
 #pragma mark Window Life Cycle
 
-- (IBAction)refreshMenuItemClicked:(id)sender {
-	[self generateFilesArrayWithDirectoryPath:self.currentPath];
+- (void)encodingTableViewSelectionChanged:(NSNotification *)notification {
+	
+	Encoding *encoding = [notification object];
+	NSLog(@"%@", encoding.localizedName);
+
+	NSString *previewString = [[NSString alloc] initWithData:self.previewData encoding:encoding.stringEncoding];
+	self.previewText = previewString;
+	[previewString release];
+}
+
+- (IBAction)okButtonClicked:(id)sender {
+	
+	[NSApp stopModal];
+}
+
+- (IBAction)guessEncodingButtonClicked:(id)sender {
+	
+	NSArray *selectedItems = [filesArrayController selectedObjects];
+	
+	FileItem *item = [selectedItems objectAtIndex:0];
+	self.previewData = [[[NSData alloc] initWithContentsOfFile:item.path] autorelease];
+
+//	NSArray *possibleEncodings = [NSStringEncodingSniffer sniffData:itemData];
+//	
+//	for (NSNumber *encoding in possibleEncodings) {
+//		NSString *name = [NSString localizedNameOfStringEncoding:[encoding intValue]];
+//		if (!name || [name isEqualTo:@""]) {
+//			name = [NSString localizedNameOfStringEncoding:[encoding intValue] - 2147483648.0];
+//		}
+//		NSLog(@"%d - %@", (NSInteger)[encoding intValue], name);
+//	}
+//	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(encodingTableViewSelectionChanged:) 
+												 name:kEncodingTableViewSelectionChange 
+											   object:nil];
+	
+	if (encodingsArrayController.lastEncoding == nil) {
+		encodingsArrayController.lastEncoding = [self.availableEncodings objectAtIndex:0];
+	}
+	
+	NSString *previewString = [[NSString alloc] initWithData:self.previewData encoding:encodingsArrayController.lastEncoding.stringEncoding];
+	self.previewText = previewString;
+	[previewString release];
+	
+	[NSApp beginSheet:previewWindow modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+	[NSApp runModalForWindow:previewWindow];
+	// sheet is up here...
+	
+	[NSApp endSheet:previewWindow];
+	[previewWindow orderOut:self];
+		
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kEncodingTableViewSelectionChange object:nil];
+	self.previewText = nil;
+	self.previewData = nil;
 }
 
 - (void)awakeFromNib {
 	[super awakeFromNib];
 	
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(sidebarListSelectionDidChange:) 
-                                                 name:kSidebarListSelectionDidChange 
-                                               object:nil];
-	
-	// Notifications to perform undo & redo via swipe gestures.
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(handleUndo) 
-												 name:kSwipeGestureLeft 
-											   object:nil];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(handleRedo) 
-												 name:kSwipeGestureRight 
-											   object:nil];
-	
-	// Initialize default foder is "/".
-	[self updateSidebarListSelectionItemWithPath:@"/"];
-	
 	// Retrieve all avaiable string encodings, and store them into self.availableEncodings.
 	NSMutableArray *encodingsArray = [[NSMutableArray alloc] init];
 	const NSStringEncoding *encodings = [NSString availableStringEncodings];
-	NSStringEncoding encoding;
+	double encoding;
 	int index = 0;
 	while ((encoding = *encodings++) != 0) {
 		
@@ -90,83 +110,8 @@
 	[encodingsArray release];
 	
 	self.saveDestinationFolderPath = @"";
-}
-
-#pragma mark -
-#pragma mark Undo & Redo
-
-- (IBAction)backForwardSegementedControlClicked:(id)sender {
-	NSLog(@"%@", self.currentPath);
-	NSSegmentedControl *segmentedControl = sender;
-	if (segmentedControl.selectedSegment == 0) {
-		[self handleUndo];
-	} else {
-		[self handleRedo];
-	}
-}
-
-- (void)handleUndo {
 	
-	[[self.window undoManager] undo];
-	[self updateSegmentedControl];
-}
-
-- (void)handleRedo {
-	
-	[[self.window undoManager] redo];
-	[self updateSegmentedControl];
-}
-
-- (void)updateSegmentedControl {
-	
-	[backForwardSegementedControl setEnabled:[self.window.undoManager canUndo] forSegment:0];
-	[backForwardSegementedControl setEnabled:[self.window.undoManager canRedo] forSegment:1];
-}
-
-#pragma mark -
-#pragma mark Toolbar Items
-
-- (IBAction)pathPopupButtonClicked:(id)sender {
-	
-	PathPopupButton *popupButton = (PathPopupButton *)sender;
-	PathMenuItem *menuItem = (PathMenuItem *)[popupButton selectedItem];
-	popupButton.path = menuItem.path;
-	[self generateFilesArrayWithDirectoryPath:popupButton.path];
-}
-
-- (IBAction)convertToolButtonClicked:(id)sender {
-		
-	NSArray *selectedObjects = [filesArrayController selectedObjects];
-	
-    NSMutableArray *selectedFilesArray = [[NSMutableArray alloc] init];
-	for (FileItem *item in selectedObjects) {
-		if (![item isDirectory]) {
-			item.status = kFileItemStatusWaiting;
-			[selectedFilesArray addObject:item];
-		}
-	}
-	self.selectedFiles = selectedFilesArray;
-    [selectedFilesArray release];
-	
-	[progressIndicator setDoubleValue:0];
-    
-	[sheetController openSheet:self];
-}
-
-#pragma mark -
-#pragma mark TableView
-
-- (void)tableViewDoubleClicked:(NSArray *)selectedObjects {
-	
-    if ([selectedObjects count] > 0) {
-        
-        FileItem *item = (FileItem *)[selectedObjects objectAtIndex:0];
-        if ([item isDirectory]) {
-            [self generateFilesArrayWithDirectoryPath:item.path];
-        } else {
-			[self convertToolButtonClicked:nil];
-		}
-    }
+	self.files = [[[NSMutableArray alloc] init] autorelease];
 }
 
 - (IBAction)selectDestinationFolderButtonClicked:(id)sender {
@@ -179,69 +124,6 @@
 		NSURL *folder = [openDialog URL];
 		self.saveDestinationFolderPath = [folder path];
 	}
-}
-#pragma mark -
-#pragma mark Change Path
-
-- (void)generateFilesArrayWithDirectoryPath:(NSString *)path {
-    	
-	if (self.currentPath != nil && ![self.currentPath isEqualToString:path])
-		[[self.window undoManager] registerUndoWithTarget:self selector:@selector(generateFilesArrayWithDirectoryPath:) object:self.currentPath];	
-	
-	[self updateSegmentedControl];
-	
-	self.currentPath = path;
-	pathPopupButton.path = path;
-	[self updateSidebarListSelectionItemWithPath:self.currentPath];
-	
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *filesArray = [fileManager contentsOfDirectoryAtPath:path error:nil];
-    
-    NSMutableArray *newFiles = [[[NSMutableArray alloc] initWithCapacity:[filesArray count]] autorelease];
-    for (NSString *filename in filesArray) {
-		
-		FileItem *item = [[FileItem alloc] init];
-		item.path = [path stringByAppendingPathComponent:filename];
-		
-		if (![item isInvisible])
-			[newFiles addObject:item];
-		
-		[item release];
-    }
-    
-    self.files = newFiles;
-}
-
-#pragma mark -
-#pragma mark SidebarList
-
-- (void)sidebarListSelectionDidChange:(NSNotification *)notification {
-
-    NSDictionary *userInfo = [notification userInfo];
-    [self generateFilesArrayWithDirectoryPath:[userInfo objectForKey:@"path"]];
-}
-
-- (void)updateSidebarListSelectionItemWithPath:(NSString *)path {
-
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:path forKey:@"path"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCurrentFolderChanged object:nil userInfo:userInfo];
-}
-
-#pragma mark -
-#pragma mark Sheet Window
-
-- (IBAction)clearSucceededFilesMenuItemClicked:(id)sender {
-	
-	NSMutableArray *remainings = [[NSMutableArray alloc] init];
-	
-	for (FileItem *item in self.selectedFiles) {
-		if (item.status != kFileItemStatusSucceeded) {
-			[remainings addObject:item];
-		}
-	}
-	
-	self.selectedFiles = remainings;
-	[remainings release];
 }
 
 - (IBAction)convertButtonClicked:(id)sender {
@@ -265,7 +147,7 @@
 	NSStringEncoding fromEncoding = [(Encoding *)[self.availableEncodings objectAtIndex:fromEncodingIndex] stringEncoding];
 	NSStringEncoding toEncoding = [(Encoding *)[self.availableEncodings objectAtIndex:toEncodingIndex] stringEncoding];	
 	
-	[progressIndicator setMaxValue:[self.selectedFiles count]];
+	[progressIndicator setMaxValue:[self.files count]];
 	[progressIndicator setMinValue:0];
 	[progressIndicator startAnimation:self];
 	[progressIndicator setUsesThreadedAnimation:YES];
@@ -273,7 +155,7 @@
 	
 	BOOL allItemsConvertedSucceeded = YES;
 	
-	for (FileItem *item in self.selectedFiles) {
+	for (FileItem *item in self.files) {
 
 		item.status = kFileItemStatusWaiting;
 		
@@ -311,6 +193,10 @@
 	[progressIndicator stopAnimation:self];
 	self.converting = NO;
 	
+	NSSound *completeSound = [[NSSound alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"complete" ofType:@"aif"] byReference:YES];
+	[completeSound play];
+	[completeSound release];
+	
 	if (!allItemsConvertedSucceeded) {
 		NSLog(@"ERROR");
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -318,7 +204,7 @@
 		[alert setMessageText:@"Failed to convert one or more files."];
 		[alert setInformativeText:@"Some files cannot be converted because output file is already existed or original encoding is wrong."];
 		[alert setAlertStyle:NSWarningAlertStyle];
-		[alert beginSheetModalForWindow:[sender window] modalDelegate:self didEndSelector:nil contextInfo:nil];
+		[alert beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 	}
 }
 
@@ -326,14 +212,12 @@
 #pragma mark Memory Management
 
 - (void)dealloc {
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	[currentPath release];
+        
 	[files release];
-    [selectedFiles release];
 	[availableEncodings release];
 	[saveDestinationFolderPath release];
+	[previewText release];
+	[previewData release];
 	
 	[super dealloc];
 }
