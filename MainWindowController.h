@@ -25,7 +25,7 @@
 	
 	BOOL converting;
 	
-	//////////////
+	// Preview Window.
 	IBOutlet EncodingsArrayController *encodingsArrayController;
 	IBOutlet NSWindow *previewWindow;
 	NSString *previewText;
@@ -46,7 +46,9 @@
 - (IBAction)convertButtonClicked:(id)sender;
 - (IBAction)selectDestinationFolderButtonClicked:(id)sender;
 - (IBAction)guessEncodingButtonClicked:(id)sender;
+- (IBAction)showInFinderButtonClicked:(id)sender;
 
-- (IBAction)okButtonClicked:(id)sender;
+- (IBAction)applyButtonClicked:(id)sender;
+- (IBAction)cancelButtonClicked:(id)sender;
 
 @end

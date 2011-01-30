@@ -14,6 +14,9 @@
 @synthesize hasItems;
 @synthesize hasSelectedItems;
 
+#pragma -
+#pragma mark Actions
+
 - (IBAction)addFiles:(id)sender {
 	
 	NSOpenPanel *openDialog = [NSOpenPanel openPanel];
@@ -48,6 +51,20 @@
 	}
 }
 
+#pragma mark -
+#pragma mark Array Controller Overrides
+
+- (NSArray *)arrangedObjects {
+	
+	self.hasItems = [super.arrangedObjects count];
+	
+    return [super arrangedObjects];
+}
+
+
+#pragma mark -
+#pragma mark Table View Notifications
+
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {
 	
 	if ([notification object] != tableView)
@@ -56,12 +73,7 @@
 	self.hasSelectedItems = [[tableView selectedRowIndexes] count] > 0;
 }
 
-- (NSArray *)arrangedObjects {
-	
-	self.hasItems = [super.arrangedObjects count];
-	
-    return [super arrangedObjects];
-}
+#pragma mark Table View Delegates
 
 - (NSDragOperation)tableView:(NSTableView *)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
     
@@ -106,6 +118,9 @@
 	return YES;		
 }
 
+#pragma mark -
+#pragma mark View Life Cycle
+
 - (void)awakeFromNib {
 	
 	// Register the table view for dragged types an set the drag mask.
@@ -120,6 +135,9 @@
 	
 	self.hasSelectedItems = NO;
 }
+
+#pragma mark -
+#pragma mark Memory Management
 
 - (void)dealloc {
     // Clean-up code here.

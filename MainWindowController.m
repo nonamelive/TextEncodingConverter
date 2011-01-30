@@ -27,21 +27,37 @@
 @synthesize previewData;
 
 #pragma mark -
-#pragma mark Window Life Cycle
+#pragma mark Preview Window
 
 - (void)encodingTableViewSelectionChanged:(NSNotification *)notification {
 	
 	Encoding *encoding = [notification object];
-	NSLog(@"%@", encoding.localizedName);
-
 	NSString *previewString = [[NSString alloc] initWithData:self.previewData encoding:encoding.stringEncoding];
 	self.previewText = previewString;
 	[previewString release];
 }
 
-- (IBAction)okButtonClicked:(id)sender {
+- (IBAction)applyButtonClicked:(id)sender {
+	
+	self.fromEncodingIndex = [self.availableEncodings indexOfObject:encodingsArrayController.lastEncoding];
 	
 	[NSApp stopModal];
+}
+
+- (IBAction)cancelButtonClicked:(id)sender {
+	
+	[NSApp stopModal];
+}
+
+#pragma mark -
+#pragma mark Toolbar & Buttons
+
+- (IBAction)showInFinderButtonClicked:(id)sender {
+		
+	for (FileItem *item in [filesArrayController selectedObjects]) {
+		NSString *folder = [item.path stringByDeletingLastPathComponent];
+		[[NSWorkspace sharedWorkspace] selectFile:item.path inFileViewerRootedAtPath:folder];
+	}
 }
 
 - (IBAction)guessEncodingButtonClicked:(id)sender {
@@ -86,40 +102,12 @@
 	self.previewData = nil;
 }
 
-- (void)awakeFromNib {
-	[super awakeFromNib];
-	
-	// Retrieve all avaiable string encodings, and store them into self.availableEncodings.
-	NSMutableArray *encodingsArray = [[NSMutableArray alloc] init];
-	const NSStringEncoding *encodings = [NSString availableStringEncodings];
-	double encoding;
-	int index = 0;
-	while ((encoding = *encodings++) != 0) {
-		
-		if (encoding == NSUTF8StringEncoding)
-			self.toEncodingIndex = index;
-		index++;
-		
-		Encoding *newEncoding = [[Encoding alloc] init];
-		newEncoding.stringEncoding = encoding;
-		newEncoding.localizedName = [NSString localizedNameOfStringEncoding:encoding];
-		[encodingsArray addObject:newEncoding];
-		[newEncoding release];
-	}
-	self.availableEncodings = encodingsArray;
-	[encodingsArray release];
-	
-	self.saveDestinationFolderPath = @"";
-	
-	self.files = [[[NSMutableArray alloc] init] autorelease];
-}
-
 - (IBAction)selectDestinationFolderButtonClicked:(id)sender {
 	
 	NSOpenPanel *openDialog = [NSOpenPanel openPanel];
 	[openDialog setCanChooseDirectories:YES];
 	[openDialog setCanChooseFiles:NO];
-
+	
 	if ([openDialog runModal] == NSOKButton) {
 		NSURL *folder = [openDialog URL];
 		self.saveDestinationFolderPath = [folder path];
@@ -143,7 +131,7 @@
 		
 		return;
 	}
-
+	
 	NSStringEncoding fromEncoding = [(Encoding *)[self.availableEncodings objectAtIndex:fromEncodingIndex] stringEncoding];
 	NSStringEncoding toEncoding = [(Encoding *)[self.availableEncodings objectAtIndex:toEncodingIndex] stringEncoding];	
 	
@@ -156,7 +144,7 @@
 	BOOL allItemsConvertedSucceeded = YES;
 	
 	for (FileItem *item in self.files) {
-
+		
 		item.status = kFileItemStatusWaiting;
 		
 		NSString *newPath = nil;
@@ -206,6 +194,37 @@
 		[alert setAlertStyle:NSWarningAlertStyle];
 		[alert beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 	}
+}
+
+#pragma mark -
+#pragma mark Window Life Cycle
+
+- (void)awakeFromNib {
+	[super awakeFromNib];
+	
+	// Retrieve all avaiable string encodings, and store them into self.availableEncodings.
+	NSMutableArray *encodingsArray = [[NSMutableArray alloc] init];
+	const NSStringEncoding *encodings = [NSString availableStringEncodings];
+	double encoding;
+	int index = 0;
+	while ((encoding = *encodings++) != 0) {
+		
+		if (encoding == NSUTF8StringEncoding)
+			self.toEncodingIndex = index;
+		index++;
+		
+		Encoding *newEncoding = [[Encoding alloc] init];
+		newEncoding.stringEncoding = encoding;
+		newEncoding.localizedName = [NSString localizedNameOfStringEncoding:encoding];
+		[encodingsArray addObject:newEncoding];
+		[newEncoding release];
+	}
+	self.availableEncodings = encodingsArray;
+	[encodingsArray release];
+	
+	self.saveDestinationFolderPath = @"";
+	
+	self.files = [[[NSMutableArray alloc] init] autorelease];
 }
 
 #pragma mark -
