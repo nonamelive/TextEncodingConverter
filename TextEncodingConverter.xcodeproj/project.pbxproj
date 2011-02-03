@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* AppDelegate.m */; };
+		2A0548F012FAA3CC00F9CE72 /* NSTableView+DeleteKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0548EF12FAA3CC00F9CE72 /* NSTableView+DeleteKey.m */; };
 		2A07631412E5F8B800B3CDCB /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A07631312E5F8B800B3CDCB /* MainWindowController.m */; };
 		2A161A5412EB28010004A2BC /* FilesArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A161A5312EB28010004A2BC /* FilesArrayController.m */; };
 		2A2E528B12F548FD00479C44 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A2E528D12F548FD00479C44 /* Localizable.strings */; };
@@ -59,6 +60,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 1; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		2A0548EE12FAA3CC00F9CE72 /* NSTableView+DeleteKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+DeleteKey.h"; sourceTree = "<group>"; };
+		2A0548EF12FAA3CC00F9CE72 /* NSTableView+DeleteKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+DeleteKey.m"; sourceTree = "<group>"; };
 		2A07631212E5F8B800B3CDCB /* MainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
 		2A07631312E5F8B800B3CDCB /* MainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
 		2A161A5212EB28010004A2BC /* FilesArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesArrayController.h; sourceTree = "<group>"; };
@@ -217,6 +220,8 @@
 		2A161A6112EB5AFF0004A2BC /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				2A0548EE12FAA3CC00F9CE72 /* NSTableView+DeleteKey.h */,
+				2A0548EF12FAA3CC00F9CE72 /* NSTableView+DeleteKey.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -363,6 +368,7 @@
 				2A3F2E7212F3C6CF00DDF7FA /* NLTableView.m in Sources */,
 				2A8444C512F452B700C6B1CA /* NSStringEncodingSniffer.m in Sources */,
 				2A85F00B12F50AA1006F1593 /* EncodingsArrayController.m in Sources */,
+				2A0548F012FAA3CC00F9CE72 /* NSTableView+DeleteKey.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
