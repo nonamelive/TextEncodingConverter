@@ -8,6 +8,7 @@
 
 #import "FilesArrayController.h"
 #import "FileItem.h"
+#import "NSTableView+DeleteKey.h"
 
 @implementation FilesArrayController
 
@@ -117,6 +118,14 @@
 	
 	return YES;		
 }
+
+#pragma mark Delete Key Delegate
+
+- (void) deleteKeyPressed:(NSTableView *)aTableView onRow:(int)rowIndex {
+    [self removeObjects:[self selectedObjects]];
+    [self setSelectionIndex:rowIndex];
+}
+
 
 #pragma mark -
 #pragma mark View Life Cycle
