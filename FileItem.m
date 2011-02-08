@@ -15,6 +15,7 @@
 @synthesize path;
 @synthesize icon;
 @synthesize convertedFilename;
+@synthesize backupPath;
 @synthesize status;
 @synthesize statusIcon;
 @synthesize directory;
@@ -51,14 +52,20 @@
 		self.name = [path lastPathComponent];
 		self.icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
 		
-		// Generate the new filename. e.g. nonamelive.txt -> nonamelive.converted.txt
-		NSString *newFilename = [self.name stringByDeletingPathExtension];
-		newFilename = [newFilename stringByAppendingPathExtension:@"converted"];
-		newFilename = [newFilename stringByAppendingPathExtension:[self.name pathExtension]];
-		self.convertedFilename = newFilename;
+		[self generateConvertedFilename];
+		self.backupPath = [path stringByAppendingPathExtension:@"backup"];
 		
 		self.status = kFileItemStatusWaiting;
     }
+}
+
+- (void)generateConvertedFilename {
+	
+	// Generate the new filename. e.g. nonamelive.txt -> nonamelive.converted.txt
+	NSString *newFilename = [self.name stringByDeletingPathExtension];
+	newFilename = [newFilename stringByAppendingPathExtension:@"converted"];
+	newFilename = [newFilename stringByAppendingPathExtension:[self.name pathExtension]];
+	self.convertedFilename = newFilename;
 }
 
 - (BOOL)isDirectory {
@@ -108,6 +115,7 @@
 	[path release];
 	[icon release];
 	[convertedFilename release];
+	[backupPath release];
 	[statusIcon release];
 	[super dealloc];
 }

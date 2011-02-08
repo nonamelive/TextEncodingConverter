@@ -21,6 +21,7 @@ typedef enum {
 	NSString *path;
 	NSImage *icon;
 	NSString *convertedFilename;
+	NSString *backupPath;
 	
 	FileItemStatus status;
 	NSImage *statusIcon;
@@ -33,12 +34,15 @@ typedef enum {
 @property (nonatomic, copy) NSString *path;
 @property (nonatomic, retain) NSImage *icon;
 @property (nonatomic, retain) NSString *convertedFilename;
+@property (nonatomic, retain) NSString *backupPath;
 
 @property (nonatomic, assign) FileItemStatus status;
 @property (nonatomic, retain) NSImage *statusIcon;
 
 @property (nonatomic, readonly, getter=isDirectory) BOOL directory;
 @property (nonatomic, readonly, getter=isInvisible) BOOL invisible;
+
+- (void)generateConvertedFilename;
 
 - (BOOL)isEqualToFileItem:(FileItem *)anItem;
 

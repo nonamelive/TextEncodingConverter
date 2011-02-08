@@ -21,6 +21,7 @@
 	int fromEncodingIndex;
 	int toEncodingIndex;
 	BOOL overwriting;
+	BOOL backupOriginalFiles;
 	NSString *saveDestinationFolderPath;
 	
 	BOOL converting;
@@ -39,10 +40,12 @@
 @property (nonatomic, retain) NSString *saveDestinationFolderPath;
 @property (nonatomic, assign, getter=isConverting) BOOL converting;
 @property (nonatomic, assign, getter=isOverwriting) BOOL overwriting;
+@property (nonatomic, assign, getter=isBackupOriginalFiles) BOOL backupOriginalFiles;
 
 @property (nonatomic, retain) NSString *previewText;
 @property (nonatomic, retain) NSData *previewData;
 
+- (IBAction)backupOriginalFilesButtonClicked:(id)sender;
 - (IBAction)convertButtonClicked:(id)sender;
 - (IBAction)selectDestinationFolderButtonClicked:(id)sender;
 - (IBAction)guessEncodingButtonClicked:(id)sender;

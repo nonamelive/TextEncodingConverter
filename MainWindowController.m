@@ -23,6 +23,7 @@
 @synthesize saveDestinationFolderPath;
 @synthesize converting;
 @synthesize overwriting;
+@synthesize backupOriginalFiles;
 @synthesize previewText;
 @synthesize previewData;
 
@@ -114,6 +115,20 @@
 	}
 }
 
+- (IBAction)backupOriginalFilesButtonClicked:(id)sender {
+	
+	NSButton *button = sender;
+	if ([button state] == 1) {
+		for (FileItem *item in self.files) {
+			item.convertedFilename = item.name;
+		}
+	} else {
+		for (FileItem *item in self.files) {
+			[item generateConvertedFilename];
+		}
+	}
+}
+
 - (IBAction)convertButtonClicked:(id)sender {
 	
 	NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -154,12 +169,25 @@
 			newPath = [[item.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:item.convertedFilename];
 		}
 		
+		NSString *originalPath = item.path;
+		
 		BOOL result = YES;
-		if (![fileManager fileExistsAtPath:newPath] || self.overwriting) {
+		
+		if (backupOriginalFiles) {
+			BOOL didBackup = [[NSFileManager defaultManager] moveItemAtPath:originalPath toPath:item.backupPath error:nil];
+			if (!didBackup) {
+				result = NO;
+			} else {
+				originalPath = item.backupPath;
+			}
+		}
+		
+		if (result && ![fileManager fileExistsAtPath:newPath] || self.overwriting) {
 			NSError *error = nil;
-			NSString *content = [NSString stringWithContentsOfFile:item.path encoding:fromEncoding error:nil];
+			NSString *content = [NSString stringWithContentsOfFile:originalPath encoding:fromEncoding error:nil];
 			result = [content writeToFile:newPath atomically:YES encoding:toEncoding error:&error];
-			if (!content || error.code) {
+			
+			if (!result || !content || error.code) {
 				result = NO;
 				NSLog(@"Failed.");
 			}
