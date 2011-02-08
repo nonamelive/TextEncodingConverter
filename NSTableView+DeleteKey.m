@@ -8,12 +8,7 @@
 
 #import "NSTableView+DeleteKey.h"
 
-
 @implementation NSTableView (DeleteKey)
-
-
-
-
 
 - (void) keyDown:(NSEvent *)event {
 	
@@ -25,7 +20,7 @@
 	return;
 	
 	if (![[self delegate] respondsToSelector:@selector(deleteKeyPressed:onRow:)]) return;
-	[[self delegate] deleteKeyPressed:self onRow:[self selectedRow]];
+	[(NSObject<DeleteKeyDelegate> *)[self delegate] deleteKeyPressed:self onRow:[self selectedRow]];
 
 }
 

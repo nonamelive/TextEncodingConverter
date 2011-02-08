@@ -8,10 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-
-
-
 @protocol DeleteKeyDelegate
 
 - (void) deleteKeyPressed:(NSTableView *)aTableView onRow:(int)rowIndex;
